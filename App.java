@@ -14,23 +14,22 @@ public class App implements IPolynomialSolver {
     
     public int[][] scanPolynomial()
     {
-        System.out.println("Enter the terms of your polynomial in this order : Coefficient1, Exponent1 , Coefficient2, Exponent2, ...");
-        System.out.println("When you finish writing your polynomial, Enter anything rather than integers ");
+        System.out.println("Enter the terms of your polynomial in this way : Coefficient1, Exponent1 (Enter) Coefficient2, Exponent2 (Enter)  ...");
+        System.out.println("When you finish writing your polynomial, Press Enter twice");
         int[][] arr = new int[max][2];
         Scanner readInput=new Scanner(System.in);
         readInput.useDelimiter("\\D");
-        int termsCounter = 0;
+        int termsNo = 0;
         try {
             while (readInput.hasNextInt()){
-                arr[termsCounter][0] = readInput.nextInt();
-                arr[termsCounter][1] = readInput.nextInt();
-                termsCounter++;
+                arr[termsNo][0] = readInput.nextInt();
+                arr[termsNo][1] = readInput.nextInt();
+                termsNo++;
             }
         }
         catch (Exception e){
             System.out.println("Enter a valid input");
         }
-        readInput.close();
         return arr;
     }
     public void showArr(int[][] arr) /*FOR TESTING IN MAIN*/
