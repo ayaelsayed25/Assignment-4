@@ -18,7 +18,7 @@ public class App implements IPolynomialSolver {
         System.out.println("When you finish writing your polynomial, Press Enter twice");
         int[][] arr = new int[max][2];
         Scanner readInput=new Scanner(System.in);
-        readInput.useDelimiter("\\D");
+        readInput.useDelimiter("\\,|\\n");
         termNo = 0;
         try {
             while (readInput.hasNextInt()){
