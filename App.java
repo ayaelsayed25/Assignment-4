@@ -1,5 +1,4 @@
-
-package eg.edu.alexu.csd.datastructure.linkedList.cs01_cs;
+package eg.edu.alexu.csd.datastructure.linkedList.cs01_cs10;
 import java.awt.Point;
 import java.io.*;
 import java.lang.*;
@@ -11,7 +10,7 @@ public class App implements IPolynomialSolver {
     DoublyLinkedList listB = new DoublyLinkedList();
     DoublyLinkedList listC = new DoublyLinkedList();
     DoublyLinkedList listR = new DoublyLinkedList();
-    
+
     public int[][] scanPolynomial()
     {
         System.out.println("Enter the terms of your polynomial in this way : Coefficient1, Exponent1 (Enter) Coefficient2, Exponent2 (Enter)  ...");
@@ -51,15 +50,15 @@ public class App implements IPolynomialSolver {
         listB.show();
         System.out.println("List C :");
         listC.show();
-        
+
     }
     public void EnterPolynomial()
     {
         Scanner scanner = new Scanner(System.in);
         char myChar;
-            do {   //scan the character as long as it is not between a and c
-                 System.out.print("Choose a polynomial to set : A, B, or C \n"); myChar = scanner.next().charAt(0);
-            } while (!Character.toString(myChar).matches("^[a-cA-C]*$" ) );
+        do {   //scan the character as long as it is not between a and c
+            System.out.print("Choose a polynomial to set : A, B, or C \n"); myChar = scanner.next().charAt(0);
+        } while (!Character.toString(myChar).matches("^[a-cA-C]*$" ) );
         int[][] myArr = scanPolynomial();
         setPolynomial(myChar, myArr);
     }
@@ -81,12 +80,29 @@ public class App implements IPolynomialSolver {
             int termNoC = termNo;
             listC = setList(myArr, termNoC);
         }
-        
+
     }
-    
+
     public DoublyLinkedList setList (int[][] arr, int termNum)
     {
-        
+        int[][] temp = new int[termNum][2];
+        for (int i = 0; i < termNum; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                temp[i][j] = arr[i][j];
+            }
+        }
+        Arrays.sort(temp, new Comparator<int[]>() {
+            @Override
+            public int compare(final int[] entry1, final int[] entry2) {
+                if (entry1[1] < entry2[1])
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+        System.out.println(Arrays.deepToString(temp));
         DoublyLinkedList list = new DoublyLinkedList();
         Point p = new Point();
         for(int i=0; i<termNum; i++)
@@ -95,18 +111,18 @@ public class App implements IPolynomialSolver {
             {
                 if(j==0)
                 {
-                    p.x = arr[i][j];
+                    p.x = temp[i][j];
                 }
                 else
                 {
-                    p.y = arr[i][j];
+                    p.y = temp[i][j];
                 }
             }
             list.add(new Point(p.x, p.y));
         }
         return list;
     }
-    
+
 
     @Override
     public String print(char poly) {
@@ -179,6 +195,6 @@ public class App implements IPolynomialSolver {
     public int[][] multiply(char poly1, char poly2) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }
