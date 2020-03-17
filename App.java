@@ -17,35 +17,20 @@ public class App implements IPolynomialSolver {
         System.out.println("Enter the terms of your polynomial in this order : Coefficient1, Exponent1 , Coefficient2, Exponent2, ...");
         System.out.println("When you finish writing your polynomial, Enter anything rather than integers ");
         int[][] arr = new int[max][2];
-        Scanner scanner = new Scanner(System.in);
-        termNo = 0;
-        outerloop:
-        for(int i =0; i<max; i++)
-        {
-            for(int j =0; j<2; j++)
-            {
-                if(j==0 && !scanner.hasNextInt())
-                {
-                    break outerloop;
-                }
-                else if(j ==1 && !scanner.hasNextInt())
-                {
-                    while(!scanner.hasNextInt())
-                    {
-                        scanner.next();
-                        System.out.println("Please, complete your input correctly : ");
-
-                    }
-                    arr[i][j] = scanner.nextInt();
-                }
-                else
-                {
-                    arr[i][j] = scanner.nextInt();
-                }
+        Scanner readInput=new Scanner(System.in);
+        readInput.useDelimiter("\\D");
+        int termsCounter = 0;
+        try {
+            while (readInput.hasNextInt()){
+                arr[termsCounter][0] = readInput.nextInt();
+                arr[termsCounter][1] = readInput.nextInt();
+                termsCounter++;
             }
-            termNo++;
-            
         }
+        catch (Exception e){
+            System.out.println("Enter a valid input");
+        }
+        readInput.close();
         return arr;
     }
     public void showArr(int[][] arr) /*FOR TESTING IN MAIN*/
