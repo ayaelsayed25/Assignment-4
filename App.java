@@ -19,12 +19,12 @@ public class App implements IPolynomialSolver {
         int[][] arr = new int[max][2];
         Scanner readInput=new Scanner(System.in);
         readInput.useDelimiter("\\D");
-        int termsNo = 0;
+        termNo = 0;
         try {
             while (readInput.hasNextInt()){
-                arr[termsNo][0] = readInput.nextInt();
-                arr[termsNo][1] = readInput.nextInt();
-                termsNo++;
+                arr[termNo][0] = readInput.nextInt();
+                arr[termNo][1] = readInput.nextInt();
+                termNo++;
             }
         }
         catch (Exception e){
