@@ -1,4 +1,3 @@
-
 package eg.edu.alexu.csd.datastructure.linkedList.cs01_cs10;
 import java.awt.Point;
 import java.io.*;
@@ -12,8 +11,8 @@ public class App implements IPolynomialSolver {
     DoublyLinkedList listB = new DoublyLinkedList();
     DoublyLinkedList listC = new DoublyLinkedList();
     DoublyLinkedList listR = new DoublyLinkedList();
-    
-     public int[][] scanPolynomial()
+
+    public int[][] scanPolynomial()
     {
         System.out.println("Enter the terms of your polynomial in this way : Coefficient1, Exponent1 (Enter) Coefficient2, Exponent2 (Enter)  ...");
         System.out.println("When you finish writing your polynomial, Press Enter twice");
@@ -38,9 +37,9 @@ public class App implements IPolynomialSolver {
     {
         Scanner scanner = new Scanner(System.in);
         char myChar;
-            do {   //scan the character as long as it is not between a and c
-                 System.out.print("Choose a polynomial to set : A, B, or C \n"); myChar = scanner.next().charAt(0);
-            } while (!Character.toString(myChar).matches("^[a-cA-C]*$" ) );
+        do {   //scan the character as long as it is not between a and c
+            System.out.print("Choose a polynomial to set : A, B, or C \n"); myChar = scanner.next().charAt(0);
+        } while (!Character.toString(myChar).matches("^[a-cA-C]*$" ) );
         int[][] myArr = scanPolynomial();
         setPolynomial(myChar, myArr);
     }
@@ -66,7 +65,7 @@ public class App implements IPolynomialSolver {
             listC = setList(myArr, termNoC);
             listC = CoeffSum(listC);
         }
-        
+
     }
     public int[][] sortArray(int[][] arr, int termNum)
     {
@@ -92,7 +91,6 @@ public class App implements IPolynomialSolver {
     public DoublyLinkedList setList (int[][] arr, int termNum)
     {
         int[][] temp = sortArray(arr, termNum);
-        System.out.println(Arrays.deepToString(temp));
         DoublyLinkedList list = new DoublyLinkedList();
         Point p = new Point();
         for(int i=0; i<termNum; i++)
@@ -112,27 +110,27 @@ public class App implements IPolynomialSolver {
         }
         return list;
     }
-    
+
 
     @Override
     public String print(char poly) {
-        String polynomial;
+        String polynomial = "Polynomial is empty";
         poly = Character.toLowerCase(poly);
-        if(poly == 'a')
+        if(poly == 'a' && listA.size != 0)
         {
             polynomial = getPoly(listA);
         }
-        else if(poly == 'b')
+        else if(poly == 'b' && listB.size != 0)
         {
             polynomial = getPoly(listB);
         }
-        else if(poly == 'r')
-        {
-            polynomial = getPoly(listR);
-        }
-        else
+        else if(poly == 'c' && listC.size != 0)
         {
             polynomial = getPoly(listC);
+        }
+        else if (poly == 'r' && listR.size != 0)
+        {
+            polynomial = getPoly(listR);
         }
         return polynomial;
     }
@@ -154,7 +152,7 @@ public class App implements IPolynomialSolver {
         }
         return poly;
     }
-    
+
 
     @Override
     public void clearPolynomial(char poly) {
@@ -162,67 +160,61 @@ public class App implements IPolynomialSolver {
         if(poly == 'a')
         {
             listA.clear();
+            System.out.println("Polynomial A is empty now");
         }
         else if(poly == 'b')
         {
             listB.clear();
+            System.out.println("Polynomial B is empty now");
         }
         else if(poly == 'r')
         {
             listR.clear();
+            System.out.println("Polynomial R is empty now");
         }
         else
         {
             listC.clear();
+            System.out.println("Polynomial C is empty now");
         }
     }
 
     @Override
     public float evaluatePolynomial(char poly, float value) { /*******Original method ( it calls another method : evaluate)********/
         float result = 0;
-        char myChar = Character.toLowerCase(poly); 
+        char myChar = Character.toLowerCase(poly);
         if(myChar == 'a')
         {
-            if(listA.isEmpty())
-                System.out.println("A is Empty; You can't evaluate it\n");
-            else
-                result = evaluate(listA, value);
+            result = evaluate(listA, value);
         }
         else if(myChar == 'b')
-        { 
-            if(listB.isEmpty())
-                System.out.println("B is Empty; You can't evaluate it\n");
-            else
-                result = evaluate(listB, value);
+        {
+            result = evaluate(listB, value);
         }
         else if(myChar == 'c')
         {
-            if(listC.isEmpty())
-                System.out.println("C is Empty; You can't evaluate it\n");
-            else
-                result = evaluate(listC, value);
+            result = evaluate(listC, value);
         }
         else
         {
-            if(listR.isEmpty())
-                System.out.println("R is Empty; You can't evaluate it\n");
-            else
-                result = evaluate(listR, value);
-        }       
-        return result; 
+            result = evaluate(listR, value);
+        }
+
+        return result;
     }
+
     public float evaluate(DoublyLinkedList list, float value)  /**********Calculates the result***********/
     {
         float result = 0;
         for(int i=0; i<list.size(); i++)
         {
             Point p = (Point) list.get(i); int exp = (int)p.getY(); int coeff = (int)p.getX();
-            result = result + (float) ((float)coeff * pow(value, (float)exp));  
+            result = result + (float) ((float)coeff * pow(value, (float)exp));
         }
         return result;
-        
+
     }
-    
+
     public int[][] listToArr(DoublyLinkedList list)
     {
         int size = list.size();
@@ -241,57 +233,66 @@ public class App implements IPolynomialSolver {
             }
         }
         return arr;
-        
+
     }
 
     @Override
     public int[][] add(char poly1, char poly2) {
         poly1 = Character.toLowerCase(poly1);
         poly2 = Character.toLowerCase(poly2);
-        if((poly1 == 'a' && poly2 == 'b') || (poly1 == 'b' && poly2 == 'a'))
-            addPoly(listA, listB, false);
-        else if((poly1 == 'a' && poly2 == 'c') || (poly1 == 'c' && poly2 == 'a'))
-            addPoly(listA, listC, false);
-        else
-            addPoly(listB, listC, false);
+        DoublyLinkedList list1 = new DoublyLinkedList();
+        DoublyLinkedList list2 = new DoublyLinkedList();
+        switch (poly1){
+            case 'a': list1 = listA; break;
+            case 'b': list1 = listB; break;
+            case 'c': list1 = listC; break;
+            case 'r': list1 = listR; break;
+        }
+        switch (poly2){
+            case 'a': list2 = listA; break;
+            case 'b': list2= listB; break;
+            case 'c': list2 = listC; break;
+            case 'r': list2 = listR; break;
+        }
+        addPoly(list1,list2,false);
         int[][] arr = listToArr(listR);
-        listR = setList(arr, arr.length);
-        int[][] temp = listToArr(listR);
-        return temp;
+        return arr;
     }
-    
+
     public void addPoly(DoublyLinkedList list1, DoublyLinkedList list2, boolean subtract)
     {
-        DoublyLinkedList listAfter = new DoublyLinkedList();
+        DoublyLinkedList tempList = new DoublyLinkedList();
         int size1 =list1.size(), size2 = list2.size();
-        if(subtract == true)
-            listAfter = changeSign(list2);
-        else
-            listAfter = list2;
+        if(subtract == true){
+            list2 = changeSign(list2);
+        }
         for(int i=0; i<size1; i++)
         {
             Point p1 = (Point)list1.get(i);
             int exp = (int) p1.getY();
-            int existsIn2 = containsExp(exp, listAfter); int existsInR = containsExp(exp, listR);
-            if( existsIn2==-1  && existsInR == -1)
-                listR.add(new Point((int) p1.getX(), (int)p1.getY()) );
-            else if( existsIn2 != -1  && existsInR == -1) 
+            int existsIn2 = containsExp(exp, list2); int existsInTemp = containsExp(exp, tempList);
+            if( existsIn2 ==-1  && existsInTemp == -1)
+                tempList.add(new Point((int) p1.getX(), (int)p1.getY()) );
+            else if( existsIn2 != -1  && existsInTemp == -1)
             {
-                Point p2 = (Point) listAfter.get(existsIn2);
+                Point p2 = (Point) list2.get(existsIn2);
                 int sum = (int) (p1.getX() + p2.getX());
-                listR.add(new Point(sum, exp));
-            }    
+                tempList.add(new Point(sum, exp));
+            }
         }
         for(int i=0; i<size2; i++)
         {
-            Point p1 = (Point)listAfter.get(i);
+            Point p1 = (Point)list2.get(i);
             int exp = (int) p1.getY();
-            int existsIn1 = containsExp(exp, list1); int existsInR = containsExp(exp, listR);
-            if( existsIn1==-1  && existsInR == -1)
-                listR.add(new Point((int) p1.getX(), (int)p1.getY()) );
+            int existsIn1 = containsExp(exp, list1); int existsInTemp = containsExp(exp, tempList);
+            if( existsIn1==-1  && existsInTemp == -1)
+                tempList.add(new Point((int) p1.getX(), (int)p1.getY()) );
         }
+        int [][] temp = listToArr(tempList);
+        temp = sortArray(temp, temp.length);
+        listR = setList(temp, temp.length);
     }
-    
+
     public int containsExp(int num, DoublyLinkedList list)
     {
         int size = list.size();
@@ -304,29 +305,30 @@ public class App implements IPolynomialSolver {
         }
         return -1;
     }
-    
+
     @Override
     public int[][] subtract(char poly1, char poly2) {
         poly1 = Character.toLowerCase(poly1);
         poly2 = Character.toLowerCase(poly2);
-        if(poly1 == 'a' && poly2 == 'b') 
-            addPoly(listA, listB, true);
-        else if(poly1 == 'b' && poly2 == 'a')
-            addPoly(listB, listA,true);
-        else if(poly1 == 'a' && poly2 == 'c')
-            addPoly(listA, listC,true);
-        else if(poly1 == 'c' && poly2 == 'a')
-            addPoly(listC, listA,true);
-        else if(poly1 == 'b' && poly2 == 'c')
-            addPoly(listB, listC,true);
-        else
-            addPoly(listC, listB,true);
+        DoublyLinkedList list1 = new DoublyLinkedList();
+        DoublyLinkedList list2 = new DoublyLinkedList();
+        switch (poly1){
+            case 'a': list1 = listA; break;
+            case 'b': list1 = listB; break;
+            case 'c': list1 = listC; break;
+            case 'r': list1 = listR; break;
+        }
+        switch (poly2){
+            case 'a': list2 = listA; break;
+            case 'b': list2= listB; break;
+            case 'c': list2 = listC; break;
+            case 'r': list2 = listR; break;
+        }
+        addPoly(list1,list2,true);
         int[][] arr = listToArr(listR);
-        listR = setList(arr, arr.length);
-        int[][] temp = listToArr(listR);
-        return temp;        
+        return arr;
     }
-    
+
     public DoublyLinkedList changeSign(DoublyLinkedList list)
     {
         DoublyLinkedList listAfter = new DoublyLinkedList();
@@ -340,7 +342,7 @@ public class App implements IPolynomialSolver {
         }
         return listAfter;
     }
-    
+
     public DoublyLinkedList CoeffSum(DoublyLinkedList list)   /**************will be used for multiplication list.R = coeffSum(list.R)****/
     {
         DoublyLinkedList newList = new DoublyLinkedList();
@@ -361,17 +363,68 @@ public class App implements IPolynomialSolver {
                 }
                 newList.add(new Point(sum, expi));
             }
-            
-
         }
         return newList;
     }
-    
 
-    @Override
-    public int[][] multiply(char poly1, char poly2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+     @Override
+     public int[][] multiply(char poly1, char poly2) {
+         poly1 = Character.toLowerCase(poly1);
+         poly2 = Character.toLowerCase(poly2);
+         DoublyLinkedList list1 = new DoublyLinkedList();
+         DoublyLinkedList list2 = new DoublyLinkedList();
+         switch (poly1){
+             case 'a': list1 = listA; break;
+             case 'b': list1 = listB; break;
+             case 'c': list1 = listC; break;
+             case 'r': list1 = listR; break;
+         }
+         switch (poly2){
+             case 'a': list2 = listA; break;
+             case 'b': list2= listB; break;
+             case 'c': list2 = listC; break;
+             case 'r': list2 = listR; break;
+         }
+         multiplyPoly(list1,list2);
+         int [][] arr = listToArr(listR);
+        return arr;
+     }
+    public void multiplyPoly(DoublyLinkedList list1, DoublyLinkedList list2){
+        int size1 =list1.size(), size2 = list2.size();
+        DoublyLinkedList tempList = new DoublyLinkedList();
+        for (int i = 0; i < size1; i++){
+            for (int j = 0; j < size2; j++){
+                int coffR, expR;
+                Point p1 = (Point) list1.get(i);
+                Point p2 = (Point) list2.get(j);
+                coffR = p1.x * p2.x;
+                expR = p1.y + p2.y;
+                tempList.add(new Point(coffR,expR));
+            }
+        }
+        tempList = CoeffSum(tempList);
+        int[][] temp = listToArr(tempList);
+        sortArray(temp,temp.length);
+        listR = setList(temp,temp.length);
     }
-    
-    
+    public  boolean available(char myChar){ //to check the polynomial before use it in operations
+        myChar = Character.toLowerCase(myChar);
+        if (myChar == 'a' && listA.size != 0){
+            return true;
+        }
+        else if (myChar == 'b' && listB.size != 0){
+            return true;
+        }
+        else if (myChar == 'c' && listC.size != 0){
+            return true;
+        }
+        else if (myChar == 'r' && listR.size != 0){
+            return true;
+        }
+        else{
+            System.out.println("Variable not set");
+            return false;
+        }
+    }
 }
