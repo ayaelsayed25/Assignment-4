@@ -5,9 +5,9 @@ import java.lang.*;
 import static java.lang.Math.pow;
 import java.util.*;
 public class App implements IPolynomialSolver {
-    final int max = 150;
+    final int max = 150;      // Max num of terms =150
     int termNo = 0;
-    DoublyLinkedList listA = new DoublyLinkedList();
+    DoublyLinkedList listA = new DoublyLinkedList();    //Intializing lists A, B, and C
     DoublyLinkedList listB = new DoublyLinkedList();
     DoublyLinkedList listC = new DoublyLinkedList();
     DoublyLinkedList listR = new DoublyLinkedList();
@@ -18,19 +18,19 @@ public class App implements IPolynomialSolver {
         if(myChar == 'a')
         {
             int termNoA = termNo;
-            listA = setList(myArr, termNoA);
+            listA = setList(myArr, termNoA);   //setting listA
             listA = CoeffSum (listA);   /*********** terms with the same exponent are collected together before any operation ***********/
         }
         else if(myChar == 'b')
         {
             int termNoB = termNo;
-            listB = setList(myArr, termNoB);
+            listB = setList(myArr, termNoB); //seting list B
             listB = CoeffSum(listB);
         }
         else
         {
             int termNoC = termNo;
-            listC = setList(myArr, termNoC);
+            listC = setList(myArr, termNoC); //setting list C
             listC = CoeffSum(listC);
         }
     }
@@ -41,13 +41,13 @@ public class App implements IPolynomialSolver {
         poly = Character.toLowerCase(poly);
         if(poly == 'a' && listA.size != 0)
         {
-            polynomial = getPoly(listA);
+            polynomial = getPoly(listA);     //Print Polynomial A
         }
         else if(poly == 'b' && listB.size != 0)
         {
-            polynomial = getPoly(listB);
+            polynomial = getPoly(listB);      //Print Polynomial B as "sum of terms" 
         }
-        else if(poly == 'c' && listC.size != 0)
+        else if(poly == 'c' && listC.size != 0) 
         {
             polynomial = getPoly(listC);
         }
@@ -63,7 +63,7 @@ public class App implements IPolynomialSolver {
         poly = Character.toLowerCase(poly);
         if(poly == 'a')
         {
-            listA.clear();
+            listA.clear();      //Clear Polynomial A
             System.out.println("Polynomial A is empty now");
         }
         else if(poly == 'b')
@@ -89,7 +89,7 @@ public class App implements IPolynomialSolver {
         char myChar = Character.toLowerCase(poly);
         if(myChar == 'a')
         {
-            result = evaluate(listA, value);
+            result = evaluate(listA, value);       
         }
         else if(myChar == 'b')
         {
@@ -125,13 +125,13 @@ public class App implements IPolynomialSolver {
             case 'c': list2 = listC; break;
             case 'r': list2 = listR; break;
         }
-        addPoly(list1,list2,false);
-        int[][] arr = listToArr(listR);
+        addPoly(list1,list2,false);    //Adds the two lists (polynomials) and saves the result in 
+        int[][] arr = listToArr(listR);   //Turn R into an Array and return it
         return arr;
     }
 
     @Override
-    public int[][] subtract(char poly1, char poly2) {
+    public int[][] subtract(char poly1, char poly2) {   
         poly1 = Character.toLowerCase(poly1);
         poly2 = Character.toLowerCase(poly2);
         DoublyLinkedList list1 = new DoublyLinkedList();
@@ -148,8 +148,8 @@ public class App implements IPolynomialSolver {
             case 'c': list2 = listC; break;
             case 'r': list2 = listR; break;
         }
-        addPoly(list1,list2,true);
-        int[][] arr = listToArr(listR);
+        addPoly(list1,list2,true);       //Subtraction using addPoly but with passing the boolean true
+        int[][] arr = listToArr(listR); //turn the result in R into an array and return it
         return arr;
     }
 
@@ -171,7 +171,7 @@ public class App implements IPolynomialSolver {
             case 'c': list2 = listC; break;
             case 'r': list2 = listR; break;
         }
-        multiplyPoly(list1,list2);
+        multiplyPoly(list1,list2);           //Multiply the two polynomials
         int [][] arr = listToArr(listR);
         return arr;
     }
@@ -181,7 +181,7 @@ public class App implements IPolynomialSolver {
         System.out.println("Enter the terms of your polynomial in this way : Coefficient1, Exponent1 (Enter) Coefficient2, Exponent2 (Enter)  ...");
         System.out.println("When you finish writing your polynomial, Press Enter twice");
         int[][] arr = new int[max][2];
-        Scanner readInput=new Scanner(System.in);
+        Scanner readInput=new Scanner(System.in);   //Scanning the array of terms and coefficients
         readInput.useDelimiter("\\,|\\n");
         termNo = 0;
         try {
@@ -192,23 +192,23 @@ public class App implements IPolynomialSolver {
             }
         }
         catch (Exception e){
-            System.out.println("Enter a valid input");
+            System.out.println("Enter a valid input");   //Exception in case the input is invalid
         }
         return arr;
     }
 
     public void EnterPolynomial()
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); //scan the character used to represent the polynomial
         char myChar;
         do {   //scan the character as long as it is not between a and c
             System.out.print("Choose a polynomial to set : A, B, or C \n"); myChar = scanner.next().charAt(0);
         } while (!Character.toString(myChar).matches("^[a-cA-C]*$" ) );
-        int[][] myArr = scanPolynomial();
-        setPolynomial(myChar, myArr);
+        int[][] myArr = scanPolynomial();  //scan the array of polynomial
+        setPolynomial(myChar, myArr);     //send the array and character to setPolynomial to create the list of polynomial
     }
 
-    public int[][] sortArray(int[][] arr, int termNum)
+    public int[][] sortArray(int[][] arr, int termNum) //A function used for sorting arrays
     {
         int[][] temp = new int[termNum][2];
         for (int i = 0; i < termNum; i++)
@@ -230,7 +230,7 @@ public class App implements IPolynomialSolver {
         return temp;
     }
 
-    public DoublyLinkedList setList (int[][] arr, int termNum)
+    public DoublyLinkedList setList (int[][] arr, int termNum) //function used to turn the array of polynomial into a list
     {
         int[][] temp = sortArray(arr, termNum);
         DoublyLinkedList list = new DoublyLinkedList();
@@ -253,7 +253,7 @@ public class App implements IPolynomialSolver {
         return list;
     }
 
-    public String getPoly(DoublyLinkedList list)
+    public String getPoly(DoublyLinkedList list) //function used to create the string of polynomial : as sum of terms : in a readable form
     {
         String poly = " ";
         int size = list.size();
@@ -272,7 +272,7 @@ public class App implements IPolynomialSolver {
         return poly;
     }
 
-    public float evaluate(DoublyLinkedList list, float value)
+    public float evaluate(DoublyLinkedList list, float value)    //used to find the value after evaluation
     {
         float result = 0;
         for(int i=0; i<list.size(); i++)
@@ -284,7 +284,7 @@ public class App implements IPolynomialSolver {
 
     }
 
-    public int[][] listToArr(DoublyLinkedList list)
+    public int[][] listToArr(DoublyLinkedList list) //used to turn a list into an array
     {
         int size = list.size();
         int[][] arr = new int[size][2];
@@ -305,14 +305,14 @@ public class App implements IPolynomialSolver {
 
     }
 
-    public void addPoly(DoublyLinkedList list1, DoublyLinkedList list2, boolean subtract)
+    public void addPoly(DoublyLinkedList list1, DoublyLinkedList list2, boolean subtract)   //used to add or subtract two polynomials
     {
         DoublyLinkedList tempList = new DoublyLinkedList();
         int size1 =list1.size(), size2 = list2.size();
         if(subtract == true){
             list2 = changeSign(list2);
         }
-        for(int i=0; i<size1; i++)
+        for(int i=0; i<size1; i++)   //loop through the first list 
         {
             Point p1 = (Point)list1.get(i);
             int exp = (int) p1.getY();
@@ -326,7 +326,7 @@ public class App implements IPolynomialSolver {
                 tempList.add(new Point(sum, exp));
             }
         }
-        for(int i=0; i<size2; i++)
+        for(int i=0; i<size2; i++) //loop through the second list
         {
             Point p1 = (Point)list2.get(i);
             int exp = (int) p1.getY();
@@ -339,7 +339,7 @@ public class App implements IPolynomialSolver {
         listR = setList(temp, temp.length);
     }
 
-    public int containsExp(int num, DoublyLinkedList list)
+    public int containsExp(int num, DoublyLinkedList list) //checks if the exponent exists in the given list
     {
         int size = list.size();
         for(int i=0; i<size; i++)
@@ -352,7 +352,7 @@ public class App implements IPolynomialSolver {
         return -1;
     }
 
-    public DoublyLinkedList changeSign(DoublyLinkedList list)
+    public DoublyLinkedList changeSign(DoublyLinkedList list) //used for subtraction : changes the sign of the second given list
     {
         DoublyLinkedList listAfter = new DoublyLinkedList();
         int size = list.size();
@@ -366,7 +366,7 @@ public class App implements IPolynomialSolver {
         return listAfter;
     }
 
-    public DoublyLinkedList CoeffSum(DoublyLinkedList list)
+    public DoublyLinkedList CoeffSum(DoublyLinkedList list) //used for summing all the terms with the same exponent for every polynomial
     {
         DoublyLinkedList newList = new DoublyLinkedList();
         int sum;
@@ -390,7 +390,7 @@ public class App implements IPolynomialSolver {
         return newList;
     }
 
-    public void multiplyPoly(DoublyLinkedList list1, DoublyLinkedList list2){
+    public void multiplyPoly(DoublyLinkedList list1, DoublyLinkedList list2){ //Used for multiplying two polynomials
         int size1 =list1.size(), size2 = list2.size();
         DoublyLinkedList tempList = new DoublyLinkedList();
         for (int i = 0; i < size1; i++){
