@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        
+    public static void main(String[] args){
+
         App obj = new App();
         boolean flag2 = true;
         while (flag2){
