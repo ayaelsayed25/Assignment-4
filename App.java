@@ -179,19 +179,37 @@ public class App implements IPolynomialSolver {
 
     @Override
     public float evaluatePolynomial(char poly, float value) { /*******Original method ( it calls another method : evaluate)********/
-        float result;
+        float result = 0;
         char myChar = Character.toLowerCase(poly); 
         if(myChar == 'a')
-            result = evaluate(listA, value);
+        {
+            if(listA.isEmpty())
+                System.out.println("A is Empty; You can't evaluate it\n");
+            else
+                result = evaluate(listA, value);
+        }
         else if(myChar == 'b')
-            result = evaluate(listB, value);
+        { 
+            if(listB.isEmpty())
+                System.out.println("B is Empty; You can't evaluate it\n");
+            else
+                result = evaluate(listB, value);
+        }
         else if(myChar == 'c')
-            result = evaluate(listC, value);
+        {
+            if(listC.isEmpty())
+                System.out.println("C is Empty; You can't evaluate it\n");
+            else
+                result = evaluate(listC, value);
+        }
         else
-            result = evaluate(listR, value);
-            
-        return result;
-        
+        {
+            if(listR.isEmpty())
+                System.out.println("R is Empty; You can't evaluate it\n");
+            else
+                result = evaluate(listR, value);
+        }       
+        return result; 
     }
     public float evaluate(DoublyLinkedList list, float value)  /**********Calculates the result***********/
     {
